@@ -13,7 +13,7 @@ function LoginLink(props) {
 
   return (
     <li className="nav-item" onClick={onRedirect}>
-      <Link className="nav-link" to="/login">
+      <Link className="nav-link" to="/login" reloadDocument>
         ( Logout )
       </Link>
     </li>

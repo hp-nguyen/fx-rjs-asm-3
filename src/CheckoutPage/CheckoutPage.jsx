@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import convertMoney from '../convertMoney';
 import './CheckoutPage.css';
 
@@ -139,10 +140,10 @@ function CheckoutPage(props) {
                 <nav aria-label="breadcrumb">
                   <ol className="breadcrumb justify-content-lg-end mb-0 px-0">
                     <li className="breadcrumb-item">
-                      <a href="index.html">Home</a>
+                      <Link to="/">Home</Link>
                     </li>
                     <li className="breadcrumb-item">
-                      <a href="cart.html">Cart</a>
+                      <Link to="/cart">Cart</Link>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
                       Checkout

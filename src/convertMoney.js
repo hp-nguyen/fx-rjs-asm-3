@@ -1,17 +1,17 @@
 export default function convertMoney(money) {
-	const str = money + "";
-	let output = ""
+  // Chuyển money sang dạng array
+  const digits = String(money).split('');
+  let totalDigits = digits.length;
 
-	let count = 0;
-	for (let i = str.length - 1; i >= 0; i--) {
-		count++;
-		output = str[i] + output
+	// Vị trí bắt đầu thêm dấu chấm (chữ số thứ 3 tính từ cuối cùng ra phía trước)
+  let curDigit = -3;
+	// Khoảng cách đến vị trí thêm dấu chấm tiếp theo
+  const step = -4;
 
-		if (count % 3 === 0 && i !== 0) {
-			output = "." + output
-			count = 0;
-		}
-	}
-
-	return output;
+  while (-curDigit < totalDigits) {
+    digits.splice(curDigit, 0, '.');
+    curDigit += step;
+    totalDigits++;
+  }
+  return digits.join('');
 }
