@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import Image from '../Common/img/Image';
-import convertMoney from '../convertMoney';
 import Categories from './Categories';
 import FeatureSection from './FeatureSection';
 import HeroComponent from './HeroComponent';
 import Popup from './Popup';
 import ProductList from './ProductList';
 import SubscribeSection from './SubscribeSection';
-import { useDispatch } from 'react-redux';
-import { showPopup } from '../Redux/Action/ActionPopup';
 
 function HomePage(props) {
   const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const dispatch = useDispatch();
+  const popupState = useSelector(state => state.Popup);
   // Fetch Product
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +25,7 @@ function HomePage(props) {
         }
 
         const data = await response.json();
-        // Handle the data as needed, for example:
+        // 
         const slicedData = data.slice(0, 8);
         setProducts(slicedData);
       } catch (error) {
@@ -39,15 +36,6 @@ function HomePage(props) {
     fetchData();
   }, []);
 
-  const openModal = product => {
-    setSelectedProduct(product);
-    dispatch(showPopup(product))
-  };
-
-  const closeModal = () => {
-    setSelectedProduct(null);
-  };
-
   return (
     <div className="page-holder">
       <header className="header bg-white">
@@ -55,21 +43,12 @@ function HomePage(props) {
           <HeroComponent Image={Image} />
           <Categories Image={Image} />
 
-          <ProductList
-            products={products}
-            openModal={openModal}
-            convertMoney={convertMoney}
-          />
+          <ProductList products={products} />
 
           <FeatureSection />
           <SubscribeSection />
         </Container>
-
-        <Popup
-          selectedProduct={selectedProduct}
-          closeModal={closeModal}
-          convertMoney={convertMoney}
-        />
+        {popupState.isShow && <Popup />}
       </header>
     </div>
   );

@@ -8,7 +8,14 @@ html {
 	border: none;
 }
 
-.modal:target {
+.modal {
+	display: block !important;
+	background-color: rgba(175, 175, 175, 0.3);
+	animation: fadeIn;
+	animation-duration: 0.5s;
+}
+
+/* .modal:target {
 	display: block !important;
 	background-color: rgba(175, 175, 175, 0.3);
 	animation: fadeIn;
@@ -19,7 +26,7 @@ html {
 	visibility: visible !important;
 	animation: fadeIn;
 	animation-duration: 0.5s;
-}
+} */
 
 .fix_addwish {
 	padding-left: 0 !important;

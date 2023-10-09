@@ -1,8 +1,13 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { showPopup } from '../Redux/Action/ActionPopup';
+import convertMoney from '../convertMoney';
 
-const ProductList = ({ products, openModal, convertMoney }) => {
+const ProductList = ({ products }) => {
+  const dispatch = useDispatch();
+
   return (
     <section className="py-5" id="section_product">
       <header>
@@ -19,12 +24,12 @@ const ProductList = ({ products, openModal, convertMoney }) => {
                 <div className="product text-center">
                   <div className="position-relative mb-3">
                     <div className="badge text-white badge-"></div>
-                    <a
+                    <div
                       className="d-block"
-                      href={`#product_${product._id.$oid}`}
-                      onClick={() => openModal(product)}>
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => dispatch(showPopup(product))}>
                       <img className="img-fluid" src={product.img1} alt="" />
-                    </a>
+                    </div>
                     <div className="product-overlay">
                       <ul className="mb-0 list-inline">
                         <li className="list-inline-item m-0 p-0">
@@ -43,7 +48,9 @@ const ProductList = ({ products, openModal, convertMoney }) => {
                     </div>
                   </div>
                   <h6>
-                    <Link className="reset-anchor" to={`/detail/${product._id.$oid}`}>
+                    <Link
+                      className="reset-anchor"
+                      to={`/detail/${product._id.$oid}`}>
                       {product.name}
                     </Link>
                   </h6>

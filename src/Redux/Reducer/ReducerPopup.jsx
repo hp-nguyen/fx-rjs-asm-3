@@ -1,18 +1,22 @@
 const initialState = {
-  product: null, // Sản phẩm hiện tại sẽ là null khi không có Popup
+  isShow: false,  // State ban đầu là false để ẩn Popup
+  product: null, // Sản phẩm ban đầu là null
 };
 
 const ReducerPopup = (state = initialState, action) => {
   switch (action.type) {
     case 'SHOW_POPUP':
+      console.log('Show popup')
       return {
         ...state,
-        product: action.payload, // Cập nhật thông tin sản phẩm trong state
+        isShow: action.isShow,
+        product: action.product, 
       };
     case 'HIDE_POPUP':
       return {
         ...state,
-        product: null, // Ẩn Popup bằng cách đặt sản phẩm thành null
+        isShow: action.isShow,
+        product: action.product,
       };
     default:
       return state;
