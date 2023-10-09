@@ -8,17 +8,19 @@ import HeroComponent from './HeroComponent';
 import Popup from './Popup';
 import ProductList from './ProductList';
 import SubscribeSection from './SubscribeSection';
+import { useDispatch } from 'react-redux';
+import { showPopup } from '../Redux/Action/ActionPopup';
 
 function HomePage(props) {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-
+  const dispatch = useDispatch();
   // Fetch Product
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'https://firebasestorage.googleapis.com/v0/b/funix-subtitle.appspot.com/o/Boutique_products.json?alt=media&token=dc67a5ea-e3e0-479e-9eaf-5e01bcd09c74',
+          'https://firebasestorage.googleapis.com/v0/b/funix-subtitle.appspot.com/o/Boutique_products.json?alt=media&token=dc67a5ea-e3e0-479e-9eaf-5e01bcd09c74'
         );
 
         if (!response.ok) {
@@ -39,6 +41,7 @@ function HomePage(props) {
 
   const openModal = product => {
     setSelectedProduct(product);
+    dispatch(showPopup(product))
   };
 
   const closeModal = () => {
@@ -52,7 +55,11 @@ function HomePage(props) {
           <HeroComponent Image={Image} />
           <Categories Image={Image} />
 
-          <ProductList products={products} openModal={openModal} convertMoney={convertMoney} />
+          <ProductList
+            products={products}
+            openModal={openModal}
+            convertMoney={convertMoney}
+          />
 
           <FeatureSection />
           <SubscribeSection />

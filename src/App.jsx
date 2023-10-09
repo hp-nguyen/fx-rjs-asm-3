@@ -23,8 +23,6 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-
-          {/* <Route path="/detail/" element={<DetailPage />} /> */}
           <Route path="/detail/:productId" element={<DetailPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/login" element={<LoginPage />} />
