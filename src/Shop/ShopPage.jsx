@@ -45,7 +45,6 @@ function ShopPage(props) {
         const data = await response.json();
 
         setProducts(data);
-        // setTemp(data); // Gán giá trị cho biến temp
         setTemp([...data]);
       } catch (error) {
         console.error('Error fetching data:', error);

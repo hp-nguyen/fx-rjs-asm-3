@@ -25,7 +25,7 @@ function HomePage(props) {
         }
 
         const data = await response.json();
-        // 
+        // Lấy 8 product đầu tiên
         const slicedData = data.slice(0, 8);
         setProducts(slicedData);
       } catch (error) {
