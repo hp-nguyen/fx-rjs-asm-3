@@ -68,7 +68,7 @@ function Pagination(props) {
                 </li>
             </ul>
             <div className="pagination justify-content-center justify-content-lg-end">
-                <p className="text-small text-muted mb-0">Showing 1–9 of {parseInt(totalPage) * 9} results</p>
+                <p className="text-small text-muted mb-0">Showing 1–8 of {parseInt(totalPage) * 8} results</p>
             </div>
         </nav>
     );

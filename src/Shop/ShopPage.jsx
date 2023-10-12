@@ -6,17 +6,15 @@ import MainContent from './MainContent';
 import Sidebar from './Sidebar';
 
 function ShopPage(props) {
-  const [products, setProducts] = useState([]);
+  const [originProducts, setOriginProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [sort, setSort] = useState('default');
-  const [totalPage, setTotalPage] = useState();
-
-  const [temp, setTemp] = useState([]); // Khai báo biến temp
 
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const [pagination, setPagination] = useState({
     page: '1',
-    count: '9',
+    count: '8',
     search: '',
     category: selectedCategory,
   });
@@ -35,19 +33,17 @@ function ShopPage(props) {
         const newQuery = '?' + query;
 
         const response = await fetch(
-          `https://firebasestorage.googleapis.com/v0/b/funix-subtitle.appspot.com/o/Boutique_products.json${newQuery}&alt=media&token=dc67a5ea-e3e0-479e-9eaf-5e01bcd09c74`,
+          `https://firebasestorage.googleapis.com/v0/b/funix-subtitle.appspot.com/o/Boutique_products.json${newQuery}&alt=media&token=dc67a5ea-e3e0-479e-9eaf-5e01bcd09c74`
         );
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
         const data = await response.json();
+        // Catch error
+        if (!response.ok) throw new Error(data.error.message);
 
-        setProducts(data);
-        setTemp([...data]);
+        setOriginProducts(data);
+        setFilteredProducts(data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching products:', error);
       }
     };
 
@@ -85,32 +81,28 @@ function ShopPage(props) {
     }));
 
     if (value === 'all') {
-      // Nếu chọn "All," reset danh sách sản phẩm về ban đầu
-      setProducts(temp);
+      // Nếu chọn "All", lấy danh sách sản phẩm ban đầu
+      setFilteredProducts(originProducts);
     } else {
-      // Nếu chọn danh mục khác, lọc và hiển thị sản phẩm tương ứng
-      const filteredProducts = temp.filter(product => product.category === value);
-      setProducts(filteredProducts);
+      // Nếu chọn danh mục khác, lọc các sản phẩm tương ứng
+      const filteredProducts = originProducts.filter(
+        product => product.category === value
+      );
+      setFilteredProducts(filteredProducts);
     }
   };
 
   return (
     <Container>
       <HeaderShop />
-
-      {/* {products &&
-        products.map((product, index) => (
-          <ProductList product={product} convertMoney={convertMoney} key={product._id} />
-        ))} */}
-
       <section className="py-5">
         <Row>
           <Sidebar handlerCategory={handlerCategory} />
           <MainContent
-            products={products}
+            products={filteredProducts}
             sort={sort}
             pagination={pagination}
-            totalPage={totalPage}
+            totalPage={1}
             handlerSearch={handlerSearch}
             handlerChangeSort={handlerChangeSort}
             handlerChangePage={handlerChangePage}
