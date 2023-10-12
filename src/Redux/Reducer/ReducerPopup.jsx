@@ -6,7 +6,6 @@ const initialState = {
 const ReducerPopup = (state = initialState, action) => {
   switch (action.type) {
     case 'SHOW_POPUP':
-      console.log('Show popup')
       return {
         ...state,
         isShow: action.isShow,

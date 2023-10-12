@@ -1,46 +1,38 @@
 import alertify from 'alertifyjs';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { addCart } from '../Redux/Action/ActionCart';
 import convertMoney from '../convertMoney';
 
 function DetailPage(props) {
+  //id của sản phẩm hiện tại
+  const { productId } = useParams();
   const [detail, setDetail] = useState([]);
+  const [relateProducts, setRelateProducts] = useState([]);
 
   const dispatch = useDispatch();
 
-  //id params cho từng sản phẩm
-  const { productId } = useParams();
-
-  //email được lấy từ redux
-  const email = useSelector(state => state.Cart.email);
-
-  //cart được lấy từ redux
-  const cart = useSelector(state => state.Cart.cart);
-
-  const [relateProducts, setRelateProducts] = useState([]);
-
   //Phần này là để thay đổi số lượng khi mua sản phẩm
-  const [text, setText] = useState(1);
-  const onChangeText = e => {
-    setText(e.target.value);
+  const [amount, setAmount] = useState(1);
+  const onChangeAmount = e => {
+    setAmount(e.target.value);
   };
 
   //Tăng lên 1 đơn vị
-  const upText = () => {
-    const value = parseInt(text) + 1;
+  const upAmount = () => {
+    const value = parseInt(amount) + 1;
 
-    setText(value);
+    setAmount(value);
   };
 
   //Giảm 1 đơn vị
-  const downText = () => {
-    const value = parseInt(text) - 1;
+  const downAmount = () => {
+    const value = parseInt(amount) - 1;
 
     if (value === 0) return;
 
-    setText(value);
+    setAmount(value);
   };
 
   //Hàm này để lấy dữ liệu chi tiết sản phẩm
@@ -56,7 +48,6 @@ function DetailPage(props) {
         }
 
         const data = await response.json();
-        // Handle the data as needed, for example:
         const slicedData = data.slice(0, 8);
         const selectedData = slicedData.find(
           item => item._id.$oid === productId
@@ -86,13 +77,13 @@ function DetailPage(props) {
       idProduct: detail._id.$oid,
       nameProduct: detail.name,
       priceProduct: detail.price,
-      count: text,
+      count: amount,
       img: detail.img1,
     };
 
     dispatch(addCart(data));
     alertify.set('notifier', 'position', 'bottom-left');
-    alertify.success('Bạn Đã Thêm Hàng Thành Công!');
+    alertify.success('Add product to cart successfully!');
   };
 
   return (
@@ -200,18 +191,18 @@ function DetailPage(props) {
                     <button
                       className="dec-btn p-0"
                       style={{ cursor: 'pointer' }}>
-                      <i className="fas fa-caret-left" onClick={downText}></i>
+                      <i className="fas fa-caret-left" onClick={downAmount}></i>
                     </button>
                     <input
                       className="form-control border-0 shadow-0 p-0"
                       type="text"
-                      value={text}
-                      onChange={onChangeText}
+                      value={amount}
+                      onChange={onChangeAmount}
                     />
                     <button
                       className="inc-btn p-0"
                       style={{ cursor: 'pointer' }}>
-                      <i className="fas fa-caret-right" onClick={upText}></i>
+                      <i className="fas fa-caret-right" onClick={upAmount}></i>
                     </button>
                   </div>
                 </div>
@@ -261,7 +252,9 @@ function DetailPage(props) {
           {relateProducts &&
             relateProducts
               .filter(
-                el => el.category === detail.category && el._id !== detail._id
+                el =>
+                  el.category === detail.category &&
+                  el._id.$oid !== detail._id.$oid
               )
               .map(value => (
                 <div className="col-lg-3 col-sm-6" key={value._id.$oid}>
@@ -279,7 +272,7 @@ function DetailPage(props) {
                     <h6>
                       <Link
                         className="reset-anchor"
-                        to={`/detail/${value._id}`}>
+                        to={`/detail/${value._id.$oid}`}>
                         {value.name}
                       </Link>
                     </h6>
