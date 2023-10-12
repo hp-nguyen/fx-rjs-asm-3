@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { addCart } from '../Redux/Action/ActionCart';
 import convertMoney from '../convertMoney';
+import './DetailPage.css';
 
 function DetailPage(props) {
   //id của sản phẩm hiện tại
