@@ -1,5 +1,5 @@
 import alertify from 'alertifyjs';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { deleteCart, updateCart } from '../Redux/Action/ActionCart';
@@ -7,65 +7,49 @@ import convertMoney from '../convertMoney';
 import ListCart from './Component/ListCart';
 
 function CartPage() {
-  const cart = useSelector(state => state.Cart.cart);
+  // Current cart
+  const curCart = useSelector(state => state.Cart.cart);
   const dispatch = useDispatch();
 
-  const [total, setTotal] = useState();
+  // Tổng tiền tất cả sản phẩm trong cart
+  const total = curCart.reduce((acc, cur) => {
+    return acc + parseInt(cur.priceProduct) * parseInt(cur.count);
+  }, 0);
 
-  function getTotal(cart) {
-    let sub_total = 0;
-    cart.map(product => {
-      return (sub_total +=
-        parseInt(product.priceProduct) * parseInt(product.count));
-    });
-
-    setTotal(sub_total);
-  }
-  useEffect(() => {
-    getTotal(cart);
-  }, [cart]);
-
-  const onDeleteCart = (getUser, getProduct) => {
+  // Hàm xử lý khi xóa sản phẩm khỏi cart
+  const onDeleteProduct = (idUser, idProduct) => {
     const data = {
-      idProduct: getProduct,
-      idUser: getUser,
+      idProduct: idProduct,
+      idUser: idUser,
     };
 
-    //Đưa dữ liệu vào Redux
-    const action = deleteCart(data);
-    dispatch(action);
+    dispatch(deleteCart(data));
 
-    alertify.set('notifier', 'position', 'bottom-left');
-    alertify.error('Bạn Đã Xóa Hàng Thành Công!');
+    // alertify.set('notifier', 'position', 'bottom-left');
+    // alertify.error('Item removed from the shopping cart');
   };
-
-  const onUpdateCount = (getUser, getProduct, getCount) => {
-    //Nếu không có phiên làm việc của Session User thì mình sẽ xử lý với Redux
+  
+  // Hàm xử lý khi cập nhật số lượng sản phẩm
+  const onUpdateCount = (idUser, idProduct, count) => {
     const data = {
-      idProduct: getProduct,
-      idUser: getUser,
-      count: getCount,
+      idProduct: idProduct,
+      idUser: idUser,
+      count: count,
     };
 
-    //Đưa dữ liệu vào Redux
-    const action = updateCart(data);
-    dispatch(action);
-
-    alertify.set('notifier', 'position', 'bottom-left');
-    alertify.success('Bạn Đã Sửa Hàng Thành Công!');
+    dispatch(updateCart(data));
   };
 
-  // Use the `useNavigate` hook to navigate programmatically
   const navigate = useNavigate();
 
+  // Hàm xử lý khi ấn checkout
   const onCheckout = () => {
-    if (cart.length === 0) {
+    if (curCart.length === 0) {
       alertify.set('notifier', 'position', 'bottom-left');
-      alertify.error('Vui Lòng Kiểm Tra Lại Giỏ Hàng!');
+      alertify.error(`You don't have any products in your cart!`);
       return;
     }
 
-    // Use the `navigate` function to navigate to the checkout page
     navigate('/checkout');
   };
 
@@ -94,8 +78,8 @@ function CartPage() {
         <div className="row">
           <div className="col-lg-8 mb-4 mb-lg-0">
             <ListCart
-              cart={cart}
-              onDeleteCart={onDeleteCart}
+              cart={curCart}
+              onDeleteProduct={onDeleteProduct}
               onUpdateCount={onUpdateCount}
             />
 

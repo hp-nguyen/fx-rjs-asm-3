@@ -15,8 +15,11 @@ const initalState = {
 };
 
 const ReducerCart = (state = initalState, action) => {
+  // Cart đang chứa tất cả sp hiện tại
+  const curCart = [...state.cart];
+
   switch (action.type) {
-    //Nhận dữ liệu id_user và thay đổi state
+    // Lấy dữ liệu cart khi user login
     case 'ADD_USER':
       const curUser = action.data;
       const curCartData = storageListCart.find(
@@ -25,62 +28,56 @@ const ReducerCart = (state = initalState, action) => {
       return { ...state, email: curUser.email, cart: curCartData.cart };
 
     case 'ADD_CART':
-      //Lấy dữ liệu được truyền tới
-      const product = action.data;
+      //Lấy dữ liệu product được truyền tới
+      const dataAddProduct = action.data;
 
-      //Lấy dữ liệu có sẵn trong state
-      const curState = { ...state };
-      if (curState.cart.length < 1) {
-        curState.cart.push(product);
+      if (curCart.length < 1) {
+        curCart.push(dataAddProduct);
       } else {
         //Tìm Vị Trí của sản phẩm đã mua
-        const indexProduct = curState.cart.findIndex(value => {
-          return value.idProduct === product.idProduct;
+        const indexProduct = curCart.findIndex(product => {
+          return product.idProduct === dataAddProduct.idProduct;
         });
-        //Nếu này chưa được mua thì mình push vào
-        //Còn đã từng mua rồi thì mình update tại vị trí indexCart mà mình vừa tìm được
+        //Nếu sp chưa được mua thì push vào
+        //Còn đã từng mua rồi thì update tại vị trí index đã tìm được
         if (indexProduct < 0) {
-          curState.cart.push(product);
+          curCart.push(dataAddProduct);
         } else {
-          curState.cart[indexProduct].count =
-            parseInt(curState.cart[indexProduct].count) +
-            parseInt(product.count);
+          curCart[indexProduct].count =
+            parseInt(curCart[indexProduct].count) +
+            parseInt(dataAddProduct.count);
         }
       }
 
-      return { ...state, cart: curState.cart };
+      return { ...state, cart: curCart };
 
     case 'DELETE_CART':
       //Lấy dữ liệu được truyền tới
-      const data_delete_cart = action.data;
-      //Lấy dữ diệu có sẵn trong state
-      const delete_cart = [...state.cart];
+      const dataDeleteProduct = action.data;
 
-      //Tìm kiểm vị trí mà cần xóa
-      const indexDelete = delete_cart.findIndex(value => {
-        return value.idProduct === data_delete_cart.idProduct;
+      //Tìm kiểm vị trí cần xóa
+      const indexDelete = curCart.findIndex(product => {
+        return product.idProduct === dataDeleteProduct.idProduct;
       });
 
       //Xóa theo vị trí
-      delete_cart.splice(indexDelete, 1);
+      curCart.splice(indexDelete, 1);
       return {
         ...state,
-        cart: delete_cart,
+        cart: curCart,
       };
 
     case 'UPDATE_CART':
-      const data_update_cart = action.data;
+      const dataUpdateProduct = action.data;
 
-      const update_cart = [...state.cart];
-
-      const index = update_cart.findIndex(value => {
-        return value.idProduct === data_update_cart.idProduct;
+      const index = curCart.findIndex(product => {
+        return product.idProduct === dataUpdateProduct.idProduct;
       });
-      update_cart[index].count = data_update_cart.count;
+      curCart[index].count = dataUpdateProduct.count;
 
       return {
         ...state,
-        cart: update_cart,
+        cart: curCart,
       };
 
     default:

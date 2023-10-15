@@ -16,43 +16,34 @@ ListCart.defaultProps = {
 };
 
 function ListCart(props) {
-	const { cart, onDeleteCart, onUpdateCount } = props;
+	const { cart, onDeleteProduct, onUpdateCount } = props;
 	const handlerChangeText = (e) => {
 		console.log(e.target.value);
 	};
-
-	const handlerDelete = (getUser, getProduct) => {
-		if (!onDeleteCart) {
-			return;
-		}
-
-		onDeleteCart(getUser, getProduct);
-	};
-
-	const handlerDown = (getIdUser, getIdProduct, getCount) => {
+	const handlerDown = (idUser, idProduct, count) => {
 		if (!onUpdateCount) {
 			return;
 		}
 
-		if (getCount === 1) {
+		if (count === 1) {
 			return;
 		}
 
-		//Trước khi trả dữ liệu về component cha thì phải thay đổi biến count
-		const updateCount = parseInt(getCount) - 1;
+		//Update số lượng sp
+		const updateCount = parseInt(count) - 1;
 
-		onUpdateCount(getIdUser, getIdProduct, updateCount);
+		onUpdateCount(idUser, idProduct, updateCount);
 	};
 
-	const handlerUp = (getIdUser, getIdProduct, getCount) => {
+	const handlerUp = (idUser, idProduct, count) => {
 		if (!onUpdateCount) {
 			return;
 		}
 
-		//Trước khi trả dữ liệu về component cha thì phải thay đổi biến count
-		const updateCount = parseInt(getCount) + 1;
+		//Update số lượng sp
+		const updateCount = parseInt(count) + 1;
 
-		onUpdateCount(getIdUser, getIdProduct, updateCount);
+		onUpdateCount(idUser, idProduct, updateCount);
 	};
 
 	return (
@@ -100,14 +91,14 @@ function ListCart(props) {
 				</thead>
 				<tbody>
 					{cart &&
-						cart.map((value, index) => (
-							<tr className='text-center' key={index}>
+						cart.map((product) => (
+							<tr className='text-center' key={product.idProduct}>
 								<td className='pl-0 border-0'>
 									<div className='media align-items-center justify-content-center'>
 										<Link
 											className='reset-anchor d-block animsition-link'
-											to={`/detail/${value.idProduct.$oid}`}>
-											<img src={value.img} alt='...' width='70' />
+											to={`/detail/${product.idProduct}`}>
+											<img src={product.img} alt='...' width='70' />
 										</Link>
 									</div>
 								</td>
@@ -115,15 +106,15 @@ function ListCart(props) {
 									<div className='media align-items-center justify-content-center'>
 										<Link
 											className='reset-anchor h6 animsition-link'
-											to={`/detail/${value.idProduct.$oid}`}>
-											{value.nameProduct}
+											to={`/detail/${product.idProduct}`}>
+											{product.nameProduct}
 										</Link>
 									</div>
 								</td>
 
 								<td className='align-middle border-0'>
 									<p className='mb-0 small'>
-										{convertMoney(value.priceProduct)} VND
+										{convertMoney(product.priceProduct)} VND
 									</p>
 								</td>
 								<td className='align-middle border-0'>
@@ -133,9 +124,9 @@ function ListCart(props) {
 											style={{ cursor: 'pointer' }}
 											onClick={() =>
 												handlerDown(
-													value.idUser,
-													value.idProduct,
-													value.count
+													product.idUser,
+													product.idProduct,
+													product.count
 												)
 											}>
 											<i className='fas fa-caret-left'></i>
@@ -143,7 +134,7 @@ function ListCart(props) {
 										<input
 											className='form-control form-control-sm border-0 shadow-0 p-0'
 											type='text'
-											value={value.count}
+											value={product.count}
 											onChange={handlerChangeText}
 										/>
 										<button
@@ -151,9 +142,9 @@ function ListCart(props) {
 											style={{ cursor: 'pointer' }}
 											onClick={() => {
 												handlerUp(
-													value.idUser,
-													value.idProduct,
-													value.count
+													product.idUser,
+													product.idProduct,
+													product.count
 												);
 											}}>
 											<i className='fas fa-caret-right'></i>
@@ -163,8 +154,8 @@ function ListCart(props) {
 								<td className='align-middle border-0'>
 									<p className='mb-0 small'>
 										{convertMoney(
-											parseInt(value.priceProduct) *
-												parseInt(value.count)
+											parseInt(product.priceProduct) *
+												parseInt(product.count)
 										)}{' '}
 										VND
 									</p>
@@ -174,7 +165,7 @@ function ListCart(props) {
 										className='reset-anchor remove_cart'
 										style={{ cursor: 'pointer' }}
 										onClick={() =>
-											handlerDelete(value.idUser, value.idProduct)
+											onDeleteProduct(product.idUser, product.idProduct)
 										}>
 										<i className='fas fa-trash-alt small text-muted'></i>
 									</a>
