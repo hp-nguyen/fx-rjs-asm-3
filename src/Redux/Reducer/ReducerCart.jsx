@@ -27,10 +27,9 @@ const ReducerCart = (state = initalState, action) => {
       ) || { cart: [] };
       return { ...state, email: curUser.email, cart: curCartData.cart };
 
-    case 'ADD_CART':
+    case 'ADD_CART': // Thêm sp
       //Lấy dữ liệu product được truyền tới
       const dataAddProduct = action.data;
-
       if (curCart.length < 1) {
         curCart.push(dataAddProduct);
       } else {
@@ -39,10 +38,10 @@ const ReducerCart = (state = initalState, action) => {
           return product.idProduct === dataAddProduct.idProduct;
         });
         //Nếu sp chưa được mua thì push vào
-        //Còn đã từng mua rồi thì update tại vị trí index đã tìm được
         if (indexProduct < 0) {
           curCart.push(dataAddProduct);
         } else {
+          // Nếu đã từng mua rồi thì update tại vị trí index đã tìm được
           curCart[indexProduct].count =
             parseInt(curCart[indexProduct].count) +
             parseInt(dataAddProduct.count);
@@ -51,25 +50,17 @@ const ReducerCart = (state = initalState, action) => {
 
       return { ...state, cart: curCart };
 
-    case 'DELETE_CART':
+    case 'DELETE_CART': // Xóa 1 sp
       //Lấy dữ liệu được truyền tới
       const dataDeleteProduct = action.data;
-
-      //Tìm kiểm vị trí cần xóa
-      const indexDelete = curCart.findIndex(product => {
-        return product.idProduct === dataDeleteProduct.idProduct;
-      });
-
-      //Xóa theo vị trí
-      curCart.splice(indexDelete, 1);
+      const updatedCart = curCart.filter(product => product.idProduct !== dataDeleteProduct.idProduct)
       return {
         ...state,
-        cart: curCart,
+        cart: updatedCart,
       };
 
-    case 'UPDATE_CART':
+    case 'UPDATE_CART': // Thay đổi số lượng sp
       const dataUpdateProduct = action.data;
-
       const index = curCart.findIndex(product => {
         return product.idProduct === dataUpdateProduct.idProduct;
       });

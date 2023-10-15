@@ -1,44 +1,18 @@
 import alertify from 'alertifyjs';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { deleteCart, updateCart } from '../Redux/Action/ActionCart';
 import convertMoney from '../convertMoney';
 import ListCart from './Component/ListCart';
 
 function CartPage() {
   // Current cart
   const curCart = useSelector(state => state.Cart.cart);
-  const dispatch = useDispatch();
 
   // Tổng tiền tất cả sản phẩm trong cart
   const total = curCart.reduce((acc, cur) => {
     return acc + parseInt(cur.priceProduct) * parseInt(cur.count);
   }, 0);
-
-  // Hàm xử lý khi xóa sản phẩm khỏi cart
-  const onDeleteProduct = (idUser, idProduct) => {
-    const data = {
-      idProduct: idProduct,
-      idUser: idUser,
-    };
-
-    dispatch(deleteCart(data));
-
-    // alertify.set('notifier', 'position', 'bottom-left');
-    // alertify.error('Item removed from the shopping cart');
-  };
-  
-  // Hàm xử lý khi cập nhật số lượng sản phẩm
-  const onUpdateCount = (idUser, idProduct, count) => {
-    const data = {
-      idProduct: idProduct,
-      idUser: idUser,
-      count: count,
-    };
-
-    dispatch(updateCart(data));
-  };
 
   const navigate = useNavigate();
 
@@ -77,11 +51,7 @@ function CartPage() {
         <h2 className="h5 text-uppercase mb-4">Shopping cart</h2>
         <div className="row">
           <div className="col-lg-8 mb-4 mb-lg-0">
-            <ListCart
-              cart={curCart}
-              onDeleteProduct={onDeleteProduct}
-              onUpdateCount={onUpdateCount}
-            />
+            <ListCart />
 
             <div className="bg-light px-4 py-3">
               <div className="row align-items-center text-center">
