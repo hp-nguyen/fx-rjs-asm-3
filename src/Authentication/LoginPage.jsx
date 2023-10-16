@@ -2,7 +2,7 @@
 import alertify from 'alertifyjs';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom'; // Import `useNavigate` from 'react-router-dom' instead of `Redirect`
+import { Link, useNavigate } from 'react-router-dom';
 import { addUser } from '../Redux/Action/ActionCart';
 import { userLogin } from '../Redux/Action/ActionUser';
 import { getFromStorage, saveToStorage } from '../localStorage';

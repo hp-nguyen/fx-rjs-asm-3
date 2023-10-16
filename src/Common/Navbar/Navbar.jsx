@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Nav, Navbar } from 'react-bootstrap'; // Import React Bootstrap components
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import LoginLink from '../../Authentication/LoginLink';
 import LogoutLink from '../../Authentication/LogoutLink';
 import Name from '../../Authentication/Name';
@@ -40,12 +40,14 @@ function CustomNavbar(props) {
         <Navbar.Collapse id="navbarNavAltMarkup">
           <Nav className="mr-auto">
             <Nav.Item onClick={() => handlerActive('Home')}>
-              <Nav.Link
-                as={Link}
+              <NavLink
+                // as={Link}
                 to={`/`}
-                className={`nav-link ${active === 'Home' ? 'active' : ''}`}>
+                // className={`nav-link ${active === 'Home' ? 'active' : ''}`}
+                className={`nav-link`}
+                >
                 Home
-              </Nav.Link>
+              </NavLink>
             </Nav.Item>
             <Nav.Item onClick={() => handlerActive('Shop')}>
               <Nav.Link
