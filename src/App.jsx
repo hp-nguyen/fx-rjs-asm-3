@@ -12,7 +12,6 @@ import CartPage from './CartPage/CartPage';
 import LoginPage from './Authentication/LoginPage';
 import RegisterPage from './Authentication/RegisterPage';
 import CheckoutPage from './CheckoutPage/CheckoutPage';
-import History from './History/History';
 import ShopPage from './Shop/ShopPage';
 import Chat from './Common/Chat/Chat';
 
@@ -29,7 +28,6 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/history" element={<History />} />
         </Routes>
       </BrowserRouter>
 

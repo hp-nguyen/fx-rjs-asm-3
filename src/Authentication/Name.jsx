@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 function Name() {
   const name = useSelector(state => state.User.fullname);
@@ -17,11 +16,12 @@ function Name() {
         {name}
       </a>
       <div className="dropdown-menu mt-3" aria-labelledby="pagesDropdown">
-        <Link
+        <a
           className="dropdown-item border-0 transition-link"
-          to={'/history'}>
+          style={{ cursor: 'pointer' }}
+          >
           History
-        </Link>
+        </a>
       </div>
     </li>
   );
