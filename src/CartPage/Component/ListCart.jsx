@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import convertMoney from '../../convertMoney';
+import convertMoney from '../../utils/convertMoney';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteCart, updateCart } from '../../Redux/Action/ActionCart';
 
 function ListCart(props) {
-  const curCart = useSelector(state => state.Cart.cart)
+  const curCart = useSelector(state => state.Cart.cart);
   const dispatch = useDispatch();
 
   return (
@@ -37,7 +37,7 @@ function ListCart(props) {
           {curCart &&
             curCart.map(product => (
               <tr className="text-center" key={product.idProduct}>
-								{/* Img */}
+                {/* Img */}
                 <td className="pl-0 border-0">
                   <div className="media align-items-center justify-content-center">
                     <Link
@@ -51,7 +51,7 @@ function ListCart(props) {
                     </Link>
                   </div>
                 </td>
-								{/* Name */}
+                {/* Name */}
                 <td className="align-middle border-0">
                   <div className="media align-items-center justify-content-center">
                     <Link
@@ -61,13 +61,13 @@ function ListCart(props) {
                     </Link>
                   </div>
                 </td>
-								{/* Price */}
+                {/* Price */}
                 <td className="align-middle border-0">
                   <p className="mb-0 small">
                     {convertMoney(product.priceProduct)} VND
                   </p>
                 </td>
-								{/* Amount */}
+                {/* Amount */}
                 <td className="align-middle border-0">
                   <div className="quantity justify-content-center">
                     <button
@@ -99,7 +99,7 @@ function ListCart(props) {
                     </button>
                   </div>
                 </td>
-								{/* Total */}
+                {/* Total */}
                 <td className="align-middle border-0">
                   <p className="mb-0 small">
                     {convertMoney(
@@ -108,12 +108,11 @@ function ListCart(props) {
                     VND
                   </p>
                 </td>
-								{/* Delete product button */}
+                {/* Delete product button */}
                 <td className="align-middle border-0">
                   <button
                     className="reset-anchor remove_cart"
-										onClick={() => dispatch(deleteCart(product))}
-										>
+                    onClick={() => dispatch(deleteCart(product))}>
                     <i className="fas fa-trash-alt small text-muted"></i>
                   </button>
                 </td>

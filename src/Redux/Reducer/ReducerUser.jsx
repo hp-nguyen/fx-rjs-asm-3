@@ -1,4 +1,4 @@
-import { getFromStorage } from "../../localStorage";
+import { getFromStorage } from '../../utils/localStorage';
 
 const curUser = getFromStorage('curUser');
 const initialState = curUser

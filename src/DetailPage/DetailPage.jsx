@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { addCart } from '../Redux/Action/ActionCart';
-import convertMoney from '../convertMoney';
+import convertMoney from '../utils/convertMoney';
 import './DetailPage.css';
 
 function DetailPage(props) {
@@ -72,7 +72,7 @@ function DetailPage(props) {
     setReview(value);
   };
 
-  //Hàm này là Thêm Sản Phẩm
+  //Hàm để Thêm Sản Phẩm
   const addToCart = () => {
     const data = {
       idProduct: detail._id.$oid,

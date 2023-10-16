@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Sử dụng useNavigate thay cho Redirect
+import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
-import { getFromStorage, saveToStorage } from '../localStorage';
+import { getFromStorage, saveToStorage } from '../utils/localStorage';
 import alertify from 'alertifyjs';
 
 function RegisterPage() {

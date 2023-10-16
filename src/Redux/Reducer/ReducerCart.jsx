@@ -1,4 +1,4 @@
-import { getFromStorage } from '../../localStorage';
+import { getFromStorage } from '../../utils/localStorage';
 const curUser = getFromStorage('curUser');
 const storageListCart = getFromStorage('listCart') || [];
 let curCartData;
@@ -53,7 +53,9 @@ const ReducerCart = (state = initalState, action) => {
     case 'DELETE_CART': // Xóa 1 sp
       //Lấy dữ liệu được truyền tới
       const dataDeleteProduct = action.data;
-      const updatedCart = curCart.filter(product => product.idProduct !== dataDeleteProduct.idProduct)
+      const updatedCart = curCart.filter(
+        product => product.idProduct !== dataDeleteProduct.idProduct
+      );
       return {
         ...state,
         cart: updatedCart,

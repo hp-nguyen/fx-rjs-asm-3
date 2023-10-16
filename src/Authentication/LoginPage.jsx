@@ -1,11 +1,10 @@
-//
 import alertify from 'alertifyjs';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { addUser } from '../Redux/Action/ActionCart';
 import { userLogin } from '../Redux/Action/ActionUser';
-import { getFromStorage, saveToStorage } from '../localStorage';
+import { getFromStorage, saveToStorage } from '../utils/localStorage';
 import './Auth.css';
 
 function LoginPage(props) {
@@ -26,7 +25,8 @@ function LoginPage(props) {
     setPassword(e.target.value);
   };
 
-  const onSubmit = () => {
+  const onSubmit = e => {
+    e.preventDefault();
     if (!email) {
       setErrorEmail(true);
       return;
@@ -65,7 +65,7 @@ function LoginPage(props) {
               dispatch(addUser(curUser));
               alertify.set('notifier', 'position', 'bottom-left');
               alertify.success('Login successfully!');
-              navigate('/', {replace: true}); // redirect to the home page
+              navigate('/', { replace: true }); // redirect to the home page
             }
           }
         }

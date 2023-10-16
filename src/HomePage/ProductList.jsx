@@ -3,7 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { showPopup } from '../Redux/Action/ActionPopup';
-import convertMoney from '../convertMoney';
+import convertMoney from '../utils/convertMoney';
 
 const ProductList = ({ products }) => {
   const dispatch = useDispatch();

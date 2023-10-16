@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { hidePopup } from '../Redux/Action/ActionPopup';
-import convertMoney from '../convertMoney';
+import convertMoney from '../utils/convertMoney';
 
 function Popup() {
   const selectedProduct = useSelector(state => state.Popup.product);
@@ -59,8 +59,7 @@ function Popup() {
                       <Link
                         className="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0"
                         to={`/detail/${selectedProduct._id.$oid}`}
-                        onClick={() => dispatch(hidePopup())}
-                        >
+                        onClick={() => dispatch(hidePopup())}>
                         <i className="fa fa-shopping-cart"></i>
                         <span className="ml-2">View Detail</span>
                       </Link>

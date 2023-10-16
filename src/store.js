@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
 import ReducerRoot from './Redux/Reducer/ReducerRoot';
-import { getFromStorage, saveToStorage } from './localStorage';
+import { getFromStorage, saveToStorage } from './utils/localStorage';
 
 const store = createStore(ReducerRoot);
 store.subscribe(() => {

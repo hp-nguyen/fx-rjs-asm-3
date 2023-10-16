@@ -2,7 +2,7 @@ import alertify from 'alertifyjs';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import convertMoney from '../convertMoney';
+import convertMoney from '../utils/convertMoney';
 import ListCart from './Component/ListCart';
 
 function CartPage() {

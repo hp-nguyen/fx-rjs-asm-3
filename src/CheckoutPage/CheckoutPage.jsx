@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import convertMoney from '../convertMoney';
+import convertMoney from '../utils/convertMoney';
 import './CheckoutPage.css';
 
 function CheckoutPage(props) {
@@ -31,7 +31,7 @@ function CheckoutPage(props) {
   const [load, setLoad] = useState(false);
 
   //Check Validation
-  const handlerSubmit = (e) => {
+  const handlerSubmit = e => {
     e.preventDefault();
     if (!fullname) {
       setFullnameError(true);
@@ -229,8 +229,7 @@ function CheckoutPage(props) {
                     <button
                       className="btn btn-dark"
                       style={{ color: 'white', font: 'inherit' }}
-                      type="submit"
-                      >
+                      type="submit">
                       Place order
                     </button>
                   </div>
@@ -251,7 +250,9 @@ function CheckoutPage(props) {
                             </strong>
                             <br></br>
                             <span className="text-muted small">
-                              {`${convertMoney(product.priceProduct)} VND x ${product.count}`}
+                              {`${convertMoney(product.priceProduct)} VND x ${
+                                product.count
+                              }`}
                             </span>
                           </li>
                           <li className="border-bottom my-2"></li>

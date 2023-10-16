@@ -23,7 +23,7 @@ function Pagination(props) {
     let indexPage = []
 
     //Tạo ra số nút bấm cho từng trang
-    for (var i = 1; i <= totalPage; i++){
+    for (let i = 1; i <= totalPage; i++){
         indexPage.push(i)
     }
 

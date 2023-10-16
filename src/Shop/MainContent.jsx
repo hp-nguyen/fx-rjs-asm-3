@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Col, Row } from 'react-bootstrap';
 import Pagination from './Component/Pagination';
 import Products from './Component/Products';
