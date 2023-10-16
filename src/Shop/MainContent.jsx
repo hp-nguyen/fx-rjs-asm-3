@@ -17,10 +17,9 @@ const MainContent = ({
   return (
     <Col lg={9} order={1} order-lg={2} className="mb-5 mb-lg-0">
       <Row className="mb-3 align-items-center">
-        {/* ... Search and SortProduct components ... */}
-        {/* ------------------Search----------------- */}
+        {/* Search */}
         <Search handlerSearch={handlerSearch} />
-        {/* ------------------Search----------------- */}
+        {/* SortProduct */}
         <div className="col-lg-8">
           <ul className="list-inline d-flex align-items-center justify-content-lg-end mb-0">
             <li className="list-inline-item">
