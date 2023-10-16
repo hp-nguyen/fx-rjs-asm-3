@@ -7,7 +7,6 @@ import LogoutLink from '../../Authentication/LogoutLink';
 import Name from '../../Authentication/Name';
 
 function CustomNavbar(props) {
-  const [active, setActive] = useState('Home');
 
   const curUser = useSelector(state => state.User);
   const [loginUser, setLoginUser] = useState(false);
@@ -23,46 +22,34 @@ function CustomNavbar(props) {
     }
   }, [curUser]);
 
-  const handlerActive = value => {
-    setActive(value);
-  };
-
   return (
     <div className="container px-0 px-lg-3">
       <Navbar bg="navbar-light" expand="lg" className="py-3 px-lg-0">
         <Navbar.Brand
           as={Link}
-          to={`/`}
+          to={'/'}
           className="font-weight-bold text-uppercase text-dark">
           Boutique
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarNavAltMarkup" />
         <Navbar.Collapse id="navbarNavAltMarkup">
           <Nav className="mr-auto">
-            <Nav.Item onClick={() => handlerActive('Home')}>
-              <NavLink
-                // as={Link}
-                to={`/`}
-                // className={`nav-link ${active === 'Home' ? 'active' : ''}`}
-                className={`nav-link`}
-                >
+            <Nav.Item>
+              <NavLink to={'/'} className={`nav-link`}>
                 Home
               </NavLink>
             </Nav.Item>
-            <Nav.Item onClick={() => handlerActive('Shop')}>
-              <Nav.Link
-                as={Link}
-                to={`/shop`}
-                className={`nav-link ${active === 'Shop' ? 'active' : ''}`}>
+            <Nav.Item>
+              <NavLink to={'/shop'} className={`nav-link`}>
                 Shop
-              </Nav.Link>
+              </NavLink>
             </Nav.Item>
           </Nav>
           <Nav className="ml-auto">
             <Nav.Item>
-              <Nav.Link as={Link} to={`/cart`}>
+              <NavLink to={'/cart'} className={`nav-link`}>
                 <i className="fas fa-dolly-flatbed mr-1 text-gray"></i> Cart
-              </Nav.Link>
+              </NavLink>
             </Nav.Item>
             {nameUser && <Name />}
             {loginUser ? <LoginLink /> : <LogoutLink />}
