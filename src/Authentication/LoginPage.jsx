@@ -27,50 +27,40 @@ function LoginPage(props) {
 
   const onSubmit = e => {
     e.preventDefault();
-    if (!email) {
-      setErrorEmail(true);
+
+    // Reset error states
+    setErrorEmail(false);
+    setEmailRegex(false);
+    setErrorPassword(false);
+
+    // Validate input
+    if (!email.trim()) return setErrorEmail(true);
+    if (!validateEmail(email)) return setEmailRegex(true);
+    if (!password) return setErrorPassword(true);
+
+    // Kiểm tra email login có khớp với user nào không
+    const users = getFromStorage('usersArr') || [];
+    const curUser = users.find(user => {
+      return user.email === email;
+    });
+    // Nếu không có email nào khớp thì báo lỗi
+    if (!curUser) return setErrorEmail(true);
+
+    // Nếu khớp email thì check password
+    if (curUser.password !== password) {
+      setErrorPassword(true); // Báo lỗi nếu sai password
+      setPassword(''); // Reset password khi nhập sai
       return;
-    } else {
-      if (!password) {
-        setErrorEmail(false);
-        setErrorPassword(true);
-        return;
-      } else {
-        setErrorPassword(false);
-
-        if (!validateEmail(email)) {
-          setEmailRegex(true);
-          return;
-        } else {
-          setEmailRegex(false);
-          const users = getFromStorage('usersArr') || [];
-          const curUser = users.find(user => {
-            return user.email === email;
-          });
-
-          if (!curUser) {
-            setErrorEmail(true);
-            return;
-          } else {
-            setErrorEmail(false);
-
-            if (curUser.password !== password) {
-              setErrorPassword(true);
-              setPassword(''); // Reset password khi nhập sai
-              return;
-            } else {
-              setErrorPassword(false);
-              saveToStorage('curUser', curUser);
-              dispatch(userLogin(curUser));
-              dispatch(addUser(curUser));
-              alertify.set('notifier', 'position', 'bottom-left');
-              alertify.success('Login successfully!');
-              navigate('/', { replace: true }); // redirect to the home page
-            }
-          }
-        }
-      }
     }
+    // Nếu email và password đều đúng thì xác nhận login
+    saveToStorage('curUser', curUser); // Lưu curUser vào storage
+    dispatch(userLogin(curUser)); // Update User state trong Redux
+    dispatch(addUser(curUser)); // Update Cart state theo curUser trong Redux
+
+    alertify.set('notifier', 'position', 'bottom-left');
+    alertify.success('Login successfully!');
+
+    navigate('/', { replace: true }); // redirect to the home page
   };
 
   function validateEmail(email) {

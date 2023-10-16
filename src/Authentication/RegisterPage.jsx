@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Auth.css';
 import { getFromStorage, saveToStorage } from '../utils/localStorage';
-import alertify from 'alertifyjs';
+import './Auth.css';
 
 function RegisterPage() {
+  // Input States
   const [fullname, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
 
+  // Error States
+  const [errorFullname, setFullnameError] = useState(false);
   const [errorEmail, setEmailError] = useState(false);
   const [emailRegex, setEmailRegex] = useState(false);
+  const [emailExisted, setEmailExisted] = useState(false);
   const [errorPassword, setPasswordError] = useState(false);
-  const [errorFullname, setFullnameError] = useState(false);
+  const [errorPasswordLength, setPasswordLengthError] = useState(false);
   const [errorPhone, setPhoneError] = useState(false);
 
   const navigate = useNavigate();
@@ -36,86 +39,48 @@ function RegisterPage() {
 
   const handlerSignUp = async e => {
     e.preventDefault();
+    // Reset error
+    setFullnameError(false);
+    setEmailError(false);
+    setEmailRegex(false);
+    setEmailExisted(false);
+    setPasswordError(false);
+    setPasswordLengthError(false);
+    setPhoneError(false);
 
-    if (!fullname) {
-      setFullnameError(true);
-      setEmailError(false);
-      setPhoneError(false);
-      setPasswordError(false);
-      setEmailRegex(false);
-      return;
-    } else {
-      setFullnameError(false);
-      setPhoneError(false);
-      setPasswordError(false);
-      setEmailError(false);
+    // Validate fullname
+    if (!fullname.trim()) return setFullnameError(true);
 
-      if (!email) {
-        setFullnameError(false);
-        setEmailError(true);
-        setPhoneError(false);
-        setPasswordError(false);
-        return;
-      } else {
-        setEmailError(false);
-        setPhoneError(false);
-        setPasswordError(false);
-        setFullnameError(false);
+    // Validate email
+    if (!email.trim()) return setEmailError(true);
 
-        if (!validateEmail(email)) {
-          setEmailRegex(true);
-          setFullnameError(false);
-          setEmailError(false);
-          setPhoneError(false);
-          setPasswordError(false);
-          return;
-        } else {
-          setEmailRegex(false);
+    if (!validateEmail(email)) return setEmailRegex(true);
 
-          if (!password) {
-            setFullnameError(false);
-            setEmailError(false);
-            setPhoneError(false);
-            setPasswordError(true);
-            return;
-          } else {
-            setFullnameError(false);
-            setPhoneError(false);
-            setPasswordError(false);
-            setEmailError(false);
+    // Kiểm tra email của newUser có trùng với các user đã có không
+    const existedUsers = getFromStorage('usersArr') || [];
+    const checkNewUser = existedUsers.find(user => user.email === email);
+    // Báo lỗi nếu trùng email
+    if (checkNewUser) return setEmailExisted(true);
 
-            if (!phone) {
-              setFullnameError(false);
-              setEmailError(false);
-              setPhoneError(true);
-              setPasswordError(false);
-            } else {
-              const newUser = {
-                fullname: fullname,
-                email: email,
-                password: password,
-                phone: phone,
-              };
-              // Kiểm tra newUser có trùng với các user đã có không
-              const users = getFromStorage('usersArr') || [];
-              const checkNewUser = users.find(
-                user => user.email === newUser.email
-              );
-              if (checkNewUser) {
-                alertify.set('notifier', 'position', 'bottom-left');
-                alertify.error('Email already exists!');
-                return;
-              }
-              // Lưu newUser vào local storage
-              users.push(newUser);
-              saveToStorage('usersArr', users);
-              // Chuyển sang trang Sign In
-              navigate('/login');
-            }
-          }
-        }
-      }
-    }
+    // Validate password
+    if (!password) return setPasswordError(true);
+
+    if (password.length < 8) return setPasswordLengthError(true);
+
+    // Validate phone
+    if (!phone.trim()) return setPhoneError(true);
+
+    // Nếu tất cả thông tin hợp lệ thì lưu newUser vào local storage
+    const newUser = {
+      fullname,
+      email,
+      password,
+      phone,
+    };
+    existedUsers.push(newUser);
+    saveToStorage('usersArr', existedUsers);
+    // Chuyển sang trang Sign In
+    navigate('/login', {replace: true});
   };
 
   function validateEmail(email) {
@@ -142,8 +107,16 @@ function RegisterPage() {
             {emailRegex && (
               <span className="text-danger">* Incorrect Email Format</span>
             )}
+            {emailExisted && (
+              <span className="text-danger">* Email already exists!</span>
+            )}
             {errorPassword && (
               <span className="text-danger">* Please Check Your Password!</span>
+            )}
+            {errorPasswordLength && (
+              <span className="text-danger">
+                * Password must be more than 8 characters!
+              </span>
             )}
             {errorPhone && (
               <span className="text-danger">
