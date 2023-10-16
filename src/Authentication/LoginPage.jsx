@@ -65,7 +65,7 @@ function LoginPage(props) {
               dispatch(addUser(curUser));
               alertify.set('notifier', 'position', 'bottom-left');
               alertify.success('Login successfully!');
-              navigate('/'); // redirect to the home page
+              navigate('/', {replace: true}); // redirect to the home page
             }
           }
         }
@@ -84,6 +84,7 @@ function LoginPage(props) {
       <div className="container-login100">
         <div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
           <span className="login100-form-title p-b-33">Sign In</span>
+          {/* Error messages */}
           <div className="d-flex justify-content-center pb-5">
             {emailRegex && (
               <span className="text-danger">* Incorrect Email Format</span>
@@ -95,29 +96,34 @@ function LoginPage(props) {
               <span className="text-danger">* Please Check Your Password</span>
             )}
           </div>
-          <div className="wrap-input100 validate-input">
-            <input
-              className="input100"
-              type="text"
-              placeholder="Email"
-              value={email}
-              onChange={onChangeEmail}
-            />
-          </div>
-          <div className="wrap-input100 rs1 validate-input">
-            <input
-              className="input100"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={onChangePassword}
-            />
-          </div>
-          <div className="container-login100-form-btn m-t-20">
-            <button className="login100-form-btn" onClick={onSubmit}>
-              Sign in
-            </button>
-          </div>
+          <form onSubmit={onSubmit}>
+            {/* Email */}
+            <div className="wrap-input100 validate-input">
+              <input
+                className="input100"
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={onChangeEmail}
+              />
+            </div>
+            {/* Password */}
+            <div className="wrap-input100 rs1 validate-input">
+              <input
+                className="input100"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={onChangePassword}
+              />
+            </div>
+            {/* Sign In button */}
+            <div className="container-login100-form-btn m-t-20">
+              <button className="login100-form-btn" type="submit">
+                Sign in
+              </button>
+            </div>
+          </form>
           <div className="text-center p-t-45 p-b-4">
             <span className="txt1">Create an account?</span>
             &nbsp;
@@ -132,4 +138,3 @@ function LoginPage(props) {
 }
 
 export default LoginPage;
-

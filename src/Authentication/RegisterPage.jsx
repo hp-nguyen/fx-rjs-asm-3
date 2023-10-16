@@ -129,6 +129,7 @@ function RegisterPage() {
       <div className="container-login100">
         <div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
           <span className="login100-form-title p-b-33">Sign Up</span>
+          {/* Error messages */}
           <div className="d-flex justify-content-center pb-5">
             {errorFullname && (
               <span className="text-danger">
@@ -150,52 +151,52 @@ function RegisterPage() {
               </span>
             )}
           </div>
-          <div className="wrap-input100 validate-input">
-            <input
-              className="input100"
-              value={fullname}
-              onChange={onChangeName}
-              type="text"
-              placeholder="Full Name"
-            />
-          </div>
-
-          <div className="wrap-input100 rs1 validate-input">
-            <input
-              className="input100"
-              value={email}
-              onChange={onChangeEmail}
-              type="text"
-              placeholder="Email"
-            />
-          </div>
-
-          <div className="wrap-input100 rs1 validate-input">
-            <input
-              className="input100"
-              value={password}
-              onChange={onChangePassword}
-              type="password"
-              placeholder="Password"
-            />
-          </div>
-
-          <div className="wrap-input100 rs1 validate-input">
-            <input
-              className="input100"
-              value={phone}
-              onChange={onChangePhone}
-              type="text"
-              placeholder="Phone"
-            />
-          </div>
-
-          <div className="container-login100-form-btn m-t-20">
-            <button className="login100-form-btn" onClick={handlerSignUp}>
-              Sign Up
-            </button>
-          </div>
-
+          <form onSubmit={handlerSignUp}>
+            {/* Fullname */}
+            <div className="wrap-input100 validate-input">
+              <input
+                className="input100"
+                value={fullname}
+                onChange={onChangeName}
+                type="text"
+                placeholder="Full Name"
+              />
+            </div>
+            {/* Email */}
+            <div className="wrap-input100 rs1 validate-input">
+              <input
+                className="input100"
+                value={email}
+                onChange={onChangeEmail}
+                type="text"
+                placeholder="Email"
+              />
+            </div>
+            {/* Password */}
+            <div className="wrap-input100 rs1 validate-input">
+              <input
+                className="input100"
+                value={password}
+                onChange={onChangePassword}
+                type="password"
+                placeholder="Password"
+              />
+            </div>
+            {/* Phone */}
+            <div className="wrap-input100 rs1 validate-input">
+              <input
+                className="input100"
+                value={phone}
+                onChange={onChangePhone}
+                type="text"
+                placeholder="Phone"
+              />
+            </div>
+            {/* Sign Up button */}
+            <div className="container-login100-form-btn m-t-20">
+              <button className="login100-form-btn">Sign Up</button>
+            </div>
+          </form>
           <div className="text-center p-t-45 p-b-4">
             <span className="txt1">Login?</span>
             &nbsp;
@@ -210,4 +211,3 @@ function RegisterPage() {
 }
 
 export default RegisterPage;
-
